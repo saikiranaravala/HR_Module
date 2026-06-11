@@ -19,12 +19,15 @@ A full-suite HCM platform — Core HR, Time & Labor, Payroll orchestration, Bene
 
 | Document | Purpose |
 |---|---|
-| `PRD-Meridian-HCM.md` | **Master PRD** — vision, goals, module summaries, roadmap, risks |
-| `00-INDEX.md` | Deep-dive library index + cross-cutting decision dependencies |
-| `01-core-hr.md` … `16-migration.md` | **16 domain deep-dives** — data models, workflows, acceptance criteria, edge-case registers, events/APIs |
+| `Specs/PRD-Meridian-HCM.md` | **Master PRD** — vision, goals, module summaries, roadmap, risks |
+| `Specs/00-INDEX.md` | Deep-dive library index + cross-cutting decision dependencies |
+| `Specs/01-core-hr.md` … `Specs/16-migration.md` | **16 domain deep-dives** — data models, workflows, acceptance criteria, edge-case registers, events/APIs |
 | `CLAUDE.md` | AI-assistant working instructions for this repo (conventions, invariants, guardrails) |
+| `Progress.md` | Module-by-module build tracker and progress log |
+| `.claude/memory.md` | Durable project decisions and learnings (append-only) |
+| `.claude/skills/` | Reusable design/build workflows (design-module, temporal-schema, api-contract, …) |
 
-**Reading order for newcomers:** Master PRD → 00-INDEX → 15 (architecture) → 01 (Core HR) → 03 (Payroll Hub) → your domain.
+**Reading order for newcomers:** Master PRD → Specs/00-INDEX → Specs/15 (architecture) → Specs/01 (Core HR) → Specs/03 (Payroll Hub) → your domain.
 
 ## Architecture at a Glance
 

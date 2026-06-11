@@ -4,7 +4,19 @@ Instructions for Claude (Claude Code and chat) when working in this repository. 
 
 ## Project Context
 
-Meridian is an AI-native HCM platform replacing Oracle PeopleSoft for 50K+ global employees. Specs live in `PRD-Meridian-HCM.md` (master) and `01-*.md` … `16-*.md` (domain deep-dives, indexed in `00-INDEX.md`). **When implementing a feature, locate and cite the requirement ID (e.g., CORE-3, PAY-5) it satisfies. If no requirement covers the work, flag it — don't invent scope.**
+Meridian is an AI-native HCM platform replacing Oracle PeopleSoft for 50K+ global employees. All specs live in the `Specs/` folder: `Specs/PRD-Meridian-HCM.md` (master) and `Specs/01-*.md` … `Specs/16-*.md` (domain deep-dives, indexed in `Specs/00-INDEX.md`). **When implementing a feature, locate and cite the requirement ID (e.g., CORE-3, PAY-5) it satisfies. If no requirement covers the work, flag it — don't invent scope.**
+
+Requirement IDs are *defined* in the master PRD (with P0/P1/P2 priority tags); domain PRDs expand them (e.g., `Specs/03-payroll-hub.md` §5 expands PAY-3). The master PRD is canonical for ID + priority; the domain PRD is canonical for detail. `Specs/00-INDEX.md` lists five cross-cutting decision dependencies (payroll RFP, ratings philosophy, ATS/LMS build-vs-buy, residency rulings, works-council inventory) — check whether your work area is gated by one before designing.
+
+**Repository status:** specification phase complete; implementation proceeds **module by module**. Track and update `Progress.md` (root) for every unit of work — see "Progress Tracking" below. Durable decisions and learnings go in `.claude/memory.md`. Reusable workflows live in `.claude/skills/`.
+
+## Progress Tracking (mandatory)
+
+`Progress.md` at the repo root is the single source of truth for build status. Rules:
+- Before starting work, check `Progress.md` for the current module and its status.
+- After completing any meaningful unit (design doc, schema, service scaffold, tests, review), append a dated entry to the Progress Log and update the module's status row.
+- Status values: `Not Started → Design → In Progress → Testing → Done`. A module is `Done` only when its PRD edge-case register is implemented as passing named tests.
+- One module at a time; don't start a new module while another is `In Progress` unless the user directs it.
 
 ## Architecture Invariants (never violate; if a task seems to require it, stop and raise it)
 
