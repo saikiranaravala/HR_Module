@@ -10,6 +10,21 @@ Requirement IDs are *defined* in the master PRD (with P0/P1/P2 priority tags); d
 
 **Repository status:** specification phase complete; implementation proceeds **module by module**. Track and update `Progress.md` (root) for every unit of work — see "Progress Tracking" below. Durable decisions and learnings go in `.claude/memory.md`. Reusable workflows live in `.claude/skills/`.
 
+## Repository Layout & Local Toolchain
+
+| Path | Contents |
+|---|---|
+| `Specs/` | Immutable PRDs (master + 16 domain deep-dives) |
+| `TechDesignDoc/` | Technical design docs, one per module (`NN-<module>-design.md`) — kept in sync with code via the `update-design-doc` skill |
+| `src/` | Backend code, one Python package per bounded context (e.g., `src/platform_core/`) |
+| `src/test/` | Tests, mirroring the package layout (`src/test/platform_core/`) |
+| `UI/` | React frontend (npm/Vite) — scaffolded when the first UI-bearing module starts |
+| `Progress.md` | Build tracker (root) |
+
+**Pinned local toolchain (use these; don't assume cloud infra):** Python 3.11.9 (backend: FastAPI, SQLAlchemy 2.x, Alembic, pytest), Node v24.14.0 + npm 11.11.0 (UI only), PostgreSQL local instance (database `meridian`).
+
+**Local deviations from spec (deliberate, recorded in `.claude/memory.md`):** the Kafka/Redis/OpenSearch backbone is not present — **events are deferred** (direct service calls for now; Invariant #7 re-enabled when the event layer module lands). Cloud-only concerns (EKS, multi-region DR, SIEM) are documented as N/A-local in design docs, never silently dropped.
+
 ## Progress Tracking (mandatory)
 
 `Progress.md` at the repo root is the single source of truth for build status. Rules:

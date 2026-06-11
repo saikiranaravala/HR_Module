@@ -11,7 +11,7 @@ description: Record completed work in Progress.md — update the module status t
 
 1. **Read `Progress.md`** — the status table and the most recent log entries.
 2. **Update the module's row** in the status table if its stage changed. Allowed transitions: `Not Started → Design → In Progress → Testing → Done`. Rules:
-   - `Design` requires the design doc to exist in `Design/`.
+   - `Design` requires the design doc to exist in `TechDesignDoc/`.
    - `Testing` requires all P0 slices implemented.
    - `Done` requires the PRD Edge Cases Register fully covered by passing named tests (see `edge-case-tests` skill) — state the final count.
    - Never move a status forward on intention ("about to finish") — only on verified artifacts.

@@ -12,7 +12,7 @@ Turn a domain PRD in `Specs/` into an implementable technical design. Design com
 1. **Read the sources in order:** the module's PRD in `Specs/NN-*.md`, its section in `Specs/PRD-Meridian-HCM.md` (canonical for requirement IDs + P0/P1/P2 priority), and `Specs/15-technical-architecture.md` for platform constraints.
 2. **Check gates:** compare the module against the five cross-cutting decision dependencies in `Specs/00-INDEX.md`. If gated, the design must isolate the undecided part behind an interface and say so explicitly.
 3. **Check memory:** scan `.claude/memory.md` for prior decisions affecting this module.
-4. **Write the design doc** to `Design/NN-<module>-design.md` with these sections:
+4. **Write the design doc** to `TechDesignDoc/NN-<module>-design.md` with these sections:
    - **Scope & requirement trace** — table of requirement IDs (from master PRD) → design element. Every P0 requirement must appear. Anything not covered by an ID gets flagged, not invented.
    - **Bounded context & data model** — entities, which are effective-dated (temporal pattern: `effective_date` + `effective_sequence` + action/reason + audit columns), sensitivity tier (T0–T3) per field, catalog tags (category, purpose, lawful basis, retention class).
    - **APIs & events** — REST resources (OpenAPI 3.1 style, `/v1`, cursor pagination, idempotency keys, RFC7807), domain events (CloudEvents, PII-minimized payloads).

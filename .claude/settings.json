@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell($pg='C:\\\\Program Files\\\\PostgreSQL\\\\17\\\\bin'; $env:PGPASSWORD='postgres'; & \"$pg\\\\psql.exe\" -U postgres -h localhost -c \"CREATE ROLE meridian_dev LOGIN PASSWORD 'meridian_dev' CREATEDB;\"; & \"$pg\\\\psql.exe\" -U postgres -h localhost -c \"CREATE DATABASE meridian OWNER meridian_dev;\"; & \"$pg\\\\psql.exe\" -U postgres -h localhost -c \"CREATE DATABASE meridian_test OWNER meridian_dev;\"; $env:PGPASSWORD='meridian_dev'; & \"$pg\\\\psql.exe\" -U meridian_dev -h localhost -d meridian -c \"SELECT current_database\\(\\), current_user;\")",
+      "PowerShell(.\\\\.venv\\\\Scripts\\\\python -m pytest src/test -q 2>$null)"
+    ]
+  }
+}

@@ -13,7 +13,7 @@ Build order follows the phase anchors in [Specs/00-INDEX.md](Specs/00-INDEX.md):
 
 | # | Module | Spec | Phase | Status | Design Doc | Edge-Case Tests |
 |---|--------|------|-------|--------|------------|-----------------|
-| 1 | Tech, Security & Privacy foundation | [Specs/15](Specs/15-technical-architecture.md) | Foundation (P0) | Not Started | — | — |
+| 1 | Tech, Security & Privacy foundation | [Specs/15](Specs/15-technical-architecture.md) | Foundation (P0) | Testing (awaiting review) | [TechDesignDoc/15](TechDesignDoc/15-foundation-design.md) | 3/3 local passing, 3 deferred N/A-local |
 | 2 | Workflow, Rules & Extensibility | [Specs/12](Specs/12-platform.md) | Foundation (P0) | Not Started | — | — |
 | 3 | Integration Architecture | [Specs/13](Specs/13-integration.md) | Foundation (P0) | Not Started | — | — |
 | 4 | AI-Native Capability Layer | [Specs/14](Specs/14-ai-layer.md) | Foundation (P0) | Not Started | — | — |
@@ -45,6 +45,20 @@ Tracked in detail in [Specs/00-INDEX.md](Specs/00-INDEX.md):
 ## Progress Log
 
 Reverse-chronological. Entry format defined in `.claude/skills/update-progress/SKILL.md`.
+
+### 2026-06-10 — Module 15 (Foundation): implemented, all tests passing — paused for user review
+- **Status:** Design → In Progress → Testing (awaiting review)
+- **Requirement IDs:** TECH-4 (temporal library + conformance suite), TECH-5 (policy engine, tiers T0–T3, decision log), TECH-6 (hash-chained append-only audit), TECH-7 partial (envelope-encryption stub, local KEK), TECH-9/10 (data catalog + generated records-of-processing)
+- **Done:** `src/platform_core/` built (temporal, policy, audit, catalog, crypto, FastAPI app); PostgreSQL 17 installed, databases `meridian`/`meridian_test` created; Alembic migration 0001 verified up/down/up; **pytest: 25 passed, 0 failed** including named edge-case tests `test_TECH_clock_skew_effective_ordering`, `test_TECH_audit_surge_bulk_read_logging`, `test_TECH_policy_unavailable_fails_closed`. Cross-surface policy consistency proven (API vs in-process). Reusable `TemporalConformanceSuite` ready for future modules.
+- **Next:** user review of Module 1; on acceptance of the 3 N/A-local deferrals (region failover, Kafka lag, KMS drill) mark Done, then start Module 2 (Specs/12 Workflow & Rules) with `design-module`.
+- **Blockers:** none.
+
+### 2026-06-10 — Module 15 (Foundation): design doc written; build phase scaffolding finalized
+- **Status:** Not Started → Design
+- **Requirement IDs:** TECH-3/4/5/6/7/9/10 traced in [TechDesignDoc/15-foundation-design.md](TechDesignDoc/15-foundation-design.md)
+- **Done:** Stack decided (Python 3.11.9 + FastAPI backend, React/Vite UI, local PostgreSQL 17; events deferred — recorded in `.claude/memory.md`). Folders `src/`, `src/test/`, `UI/`, `TechDesignDoc/` in place. New skill `update-design-doc`; skills repointed to TechDesignDoc. PostgreSQL 17 install started via winget.
+- **Next:** scaffold Python project, implement temporal library (TECH-4) slice.
+- **Blockers:** none.
 
 ### 2026-06-10 — Program: build-phase scaffolding created
 - **Status:** specification phase complete; no module started.

@@ -1,0 +1,21 @@
+# Python
+.venv/
+__pycache__/
+*.pyc
+*.egg-info/
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Environment / secrets
+.env
+src/.env
+
+# Node / UI
+UI/node_modules/
+UI/dist/
+
+# OS / editor
+Thumbs.db
+.vscode/
+*.log

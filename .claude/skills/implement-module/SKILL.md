@@ -5,7 +5,14 @@ description: Implement a Meridian module from its approved design doc — scaffo
 
 # Implement a Meridian Module
 
-Build a module from its design doc. Precondition: `Design/NN-<module>-design.md` exists and the module is in `Design` status in `Progress.md`. If the design doc is missing, run the `design-module` skill first — do not implement straight from a PRD.
+Build a module from its design doc. Precondition: `TechDesignDoc/NN-<module>-design.md` exists and the module is in `Design` status in `Progress.md`. If the design doc is missing, run the `design-module` skill first — do not implement straight from a PRD.
+
+## File placement (fixed)
+
+- Backend code: `src/<context_package>/` (Python 3.11, FastAPI + SQLAlchemy 2.x) — one package per bounded context, snake_case (e.g., `src/platform_core/`, `src/core_hr/`).
+- Tests: `src/test/<context_package>/` mirroring the package.
+- Frontend: `UI/` (React via npm/Vite, Node 24).
+- Design docs: `TechDesignDoc/` — when implementation deviates from the design, run the `update-design-doc` skill in the same slice.
 
 ## Steps
 
