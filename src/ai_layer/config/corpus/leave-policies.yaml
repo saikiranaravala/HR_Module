@@ -1,0 +1,48 @@
+# Synthetic corpus excerpt for retrieval tests. Real corpus is ingested from
+# the KB/document systems on publish events (cloud phase).
+documents:
+  - doc_id: us-fmla-handbook
+    country: US
+    population: all
+    topic: family-medical-leave
+    kind: handbook
+    version: 3
+    effective_date: 2026-01-01
+    body: "US workers: FMLA provides up to 12 weeks unpaid, job-protected leave."
+
+  - doc_id: de-elternzeit-handbook
+    country: DE
+    population: all
+    topic: family-medical-leave
+    kind: handbook
+    version: 2
+    effective_date: 2026-01-01
+    body: "DE workers: Elternzeit per BEEG, up to 3 years parental leave."
+
+  - doc_id: de-metal-cba-leave
+    country: DE
+    population: union-metal
+    topic: family-medical-leave
+    kind: cba
+    version: 5
+    effective_date: 2026-03-01
+    body: "IG-Metall CBA: supplementary paid family days beyond statutory Elternzeit."
+
+  - doc_id: us-pto-handbook-old
+    country: US
+    population: all
+    topic: paid-time-off
+    kind: handbook
+    version: 1
+    effective_date: 2025-01-01
+    body: "US PTO: 15 days accrual (superseded)."
+    tombstoned: true
+
+  - doc_id: us-pto-handbook
+    country: US
+    population: all
+    topic: paid-time-off
+    kind: handbook
+    version: 2
+    effective_date: 2026-06-05
+    body: "US PTO: 20 days accrual, effective June 2026."

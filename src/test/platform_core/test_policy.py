@@ -30,7 +30,7 @@ def test_hr_admin_reads_comp_anywhere():
     )
     assert decision.allow
     assert decision.clearance == Tier.T2
-    assert decision.policy_version == "2026-06-10.1"
+    assert decision.policy_version == "2026-06-11.1"
 
 
 def test_country_scope_denies_out_of_scope():

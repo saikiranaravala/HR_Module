@@ -61,3 +61,16 @@ Format for entries:
 **What:** Payroll provider RFP, performance ratings philosophy, ATS/LMS build-vs-buy, IN/CN data-residency rulings, works-council inventory are all undecided (see `Specs/00-INDEX.md`).
 **Why:** Designs in gated areas (03, 05, 06, 07, 08, 09, 15, 16) must flag the dependency and avoid hard-committing to one outcome.
 **Affects:** Specs/03, 05–09, 15, 16.
+
+## 2026-06-11 — Shared helpers: org-path boundaries and calendar months
+**Type:** convention
+**What:** `platform_core.orgpath.within/normalize` is the only sanctioned way to test org-subtree membership (raw `startswith` lets '/corp/eng' match '/corp/engineering'); `platform_core.dates.add_months` is the only sanctioned month arithmetic for statutory/retention windows (months*30 drifted ~10 days on a biennial compliance anniversary). Both born from the 2026-06-11 program review.
+**Why:** Three modules had independently hand-rolled each pattern; two had latent boundary/drift bugs.
+**Affects:** ess_mss, analytics, succession, learning, recruiting; every future module touching org paths or month windows. Note: `policy/engine._scope_matches` still uses raw startswith (pre-existing, role subtrees end with '/') — migrate when policy config is next touched.
+
+## 2026-06-11 — Program review: deferred findings (not fixed, recorded)
+**Type:** learning
+**What:** Full-program review (post Module 16) deferred these: (1) `compensation.cycles.committed_spend` is O(n²) at 50K-line cycles — maintain a running total per cycle when the cloud phase tunes for the <20-min recalc acceptance; (2) `analytics.reports.run_report` does a per-row policy decide — batch by (country, org_path) group; (3) SUPPRESSION_THRESHOLD=5 duplicated in ess_mss/team.py and analytics/suppression.py (move to platform_core when next touched); (4) ORM `Base.metadata.create_all` (tests) vs Alembic migrations can drift on nullability/server defaults (e.g. JSONB columns without `Mapped[]` are nullable in metadata, NOT NULL in migrations) — a metadata-vs-migration diff check would catch it; (5) `case-routing` ruleset v1 effective 2026-06-01: backdated `opened_at` before that raises NoRuleVersionError.
+**Why:** Real but non-blocking at local scale; recording so they aren't rediscovered.
+**Affects:** compensation, analytics, ess_mss, all model/migration pairs.
+

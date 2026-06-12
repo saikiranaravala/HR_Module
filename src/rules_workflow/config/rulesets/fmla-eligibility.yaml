@@ -1,0 +1,12 @@
+# US FMLA eligibility auto-check (Specs/01 §3.3): 12 months tenure AND the
+# 1,250-hours-worked test.
+ruleset: fmla-eligibility
+versions:
+  - version: 1
+    effective_date: 2026-01-01
+    inputs: [tenure_months, hours_last_12mo]
+    output: decision
+    default: not-eligible
+    rules:
+      - when: {tenure_months: {gte: 12}, hours_last_12mo: {gte: 1250}}
+        then: eligible

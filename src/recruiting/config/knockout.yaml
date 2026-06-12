@@ -1,0 +1,7 @@
+# Knockout questions (REC-3): OBJECTIVE deterministic rules only — work
+# authorization, licensure. Never AI, never subjective.
+rules:
+  - question: work_authorization
+    required: true
+  - question: has_required_license
+    required: true

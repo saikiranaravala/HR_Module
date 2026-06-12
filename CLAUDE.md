@@ -8,7 +8,7 @@ Meridian is an AI-native HCM platform replacing Oracle PeopleSoft for 50K+ globa
 
 Requirement IDs are *defined* in the master PRD (with P0/P1/P2 priority tags); domain PRDs expand them (e.g., `Specs/03-payroll-hub.md` §5 expands PAY-3). The master PRD is canonical for ID + priority; the domain PRD is canonical for detail. `Specs/00-INDEX.md` lists five cross-cutting decision dependencies (payroll RFP, ratings philosophy, ATS/LMS build-vs-buy, residency rulings, works-council inventory) — check whether your work area is gated by one before designing.
 
-**Repository status:** specification phase complete; implementation proceeds **module by module**. Track and update `Progress.md` (root) for every unit of work — see "Progress Tracking" below. Durable decisions and learnings go in `.claude/memory.md`. Reusable workflows live in `.claude/skills/`.
+**Repository status:** implementation underway, **module by module** — `Progress.md` (root) is the authoritative status table; check it before starting anything. Track and update it for every unit of work — see "Progress Tracking" below. Durable decisions and learnings go in `.claude/memory.md`. Reusable workflows live in `.claude/skills/`.
 
 ## Repository Layout & Local Toolchain
 
@@ -24,6 +24,28 @@ Requirement IDs are *defined* in the master PRD (with P0/P1/P2 priority tags); d
 **Pinned local toolchain (use these; don't assume cloud infra):** Python 3.11.9 (backend: FastAPI, SQLAlchemy 2.x, Alembic, pytest), Node v24.14.0 + npm 11.11.0 (UI only), PostgreSQL local instance (database `meridian`).
 
 **Local deviations from spec (deliberate, recorded in `.claude/memory.md`):** the Kafka/Redis/OpenSearch backbone is not present — **events are deferred** (direct service calls for now; Invariant #7 re-enabled when the event layer module lands). Cloud-only concerns (EKS, multi-region DR, SIEM) are documented as N/A-local in design docs, never silently dropped.
+
+## Development Commands
+
+Virtualenv at `.venv/` (Windows). Database URLs live in `src/.env` (git-ignored): `MERIDIAN_DATABASE_URL` (dev DB `meridian`, Alembic-managed) and `MERIDIAN_TEST_DATABASE_URL` (test DB `meridian_test`, schemas recreated per run). Local credentials are in `.claude/memory.md`.
+
+```powershell
+.\.venv\Scripts\python.exe -m pytest                                  # full suite
+.\.venv\Scripts\python.exe -m pytest src/test/core_hr                 # one module
+.\.venv\Scripts\python.exe -m pytest src/test/core_hr/test_core_hr.py::test_CORE_rehire_bridges_original_hire_date  # one test
+.\.venv\Scripts\python.exe -m alembic upgrade head                    # migrate dev DB
+.\.venv\Scripts\python.exe -m alembic downgrade -1                    # verify down-path (required for new migrations)
+.\.venv\Scripts\python.exe -m uvicorn platform_core.api:app --app-dir src  # run the API
+```
+
+Tests need the local PostgreSQL 17 service running. They do **not** use Alembic: each module's `src/test/<pkg>/conftest.py` drops/recreates its schemas in `meridian_test` from `Base.metadata`, reinstalls immutability guards, and truncates tables per test — so a new table needs both a model and a migration, and the two must agree.
+
+## Codebase Architecture (as built)
+
+- **`src/platform_core/` is the shared kernel** every module builds on: `temporal.py` (EFFDT/EFFSEQ pattern + `install_immutability_guard`), `policy/` (the single policy decision point, tiers T0–T3), `audit.py` (hash-chained audit log — canonicalize timestamps to UTC before hashing), `catalog.py` (privacy catalog tags), `crypto.py` (envelope encryption), `conformance.py` (the reusable `TemporalConformanceSuite` — run it against every new effective-dated entity), `db.py` (engine/session factories + `.env` loading), `base.py` (shared declarative `Base`).
+- **One local PostgreSQL database, one schema per bounded context** (`platform`, `core`, `time_labor`, `payroll`, `benefits`, `workflow`, `integration`, `ai`) — the local stand-in for DB-per-service. Invariant #2 still applies: modules touch other contexts' data through their service functions, never by joining across schemas.
+- **All models register on the shared `Base`** (`platform_core.base`), with `__table_args__ = {"schema": ...}` placing them in their context's schema. **Single Alembic chain** in `migrations/versions/` (`0001_…` onward), roughly one migration per module; `migrations/env.py` reads the URL via `platform_core.db.database_url()`.
+- **Domain modules are thin packages** (e.g., `core_hr/models.py` + `services.py`; `rules_workflow/rules.py` + `workflow.py`) with versioned/effective-dated config under each package's `config/` directory — that's where country packs and decision tables go, per Invariant #5.
 
 ## Progress Tracking (mandatory)
 

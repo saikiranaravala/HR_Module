@@ -1,0 +1,16 @@
+# Overtime threshold parameters per jurisdiction (Specs/02 §3). Outputs are
+# parameter objects consumed by time_labor.services.calculate_period.
+ruleset: overtime-thresholds
+versions:
+  - version: 1
+    effective_date: 2026-01-01
+    inputs: [country, state]
+    output: thresholds
+    default: {weekly_ot: 40, daily_ot: null, daily_dt: null, combine_multi_job: true}
+    rules:
+      - when: {country: US, state: CA}
+        then: {weekly_ot: 40, daily_ot: 8, daily_dt: 12, combine_multi_job: true}
+      - when: {country: US, state: CO}
+        then: {weekly_ot: 40, daily_ot: 12, daily_dt: null, combine_multi_job: true}
+      - when: {country: DE}
+        then: {weekly_ot: null, daily_ot: null, daily_dt: null, combine_multi_job: false, wtd_weekly_cap: 48}

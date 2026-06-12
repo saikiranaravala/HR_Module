@@ -1,0 +1,15 @@
+# Cross-entity transfer pattern per country (Specs/01 §3.2): some countries
+# require terminate+rehire on legal-entity change; the UI always shows one
+# "transfer". Country logic lives HERE, never as code branches (Invariant #5).
+ruleset: transfer-pattern
+versions:
+  - version: 1
+    effective_date: 2026-01-01
+    inputs: [from_country, to_country, cross_entity]
+    output: pattern
+    default: continuous
+    rules:
+      - when: {from_country: DE, cross_entity: true}
+        then: terminate-rehire
+      - when: {from_country: FR, cross_entity: true}
+        then: terminate-rehire

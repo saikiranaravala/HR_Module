@@ -1,0 +1,8 @@
+# Alumni portal retention windows (months of post-termination doc access),
+# per country statutory/retention guidance. Country pack: config, not code.
+alumni_retention_months:
+  default: 12
+  US: 36
+  DE: 24
+  FR: 24
+  UK: 24

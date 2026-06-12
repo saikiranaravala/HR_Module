@@ -1,0 +1,8 @@
+# Candidate-data retention clocks in months (REC-2). EU default 6 months with
+# re-consent; country packs override.
+retention_months:
+  default: 6
+  US: 24
+  DE: 6
+  FR: 6
+  UK: 12

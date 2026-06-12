@@ -1,0 +1,5 @@
+# Key-position criticality rubric weights (SUCC-1 §2).
+weights:
+  impact: 3
+  scarcity: 2
+  ramp: 1

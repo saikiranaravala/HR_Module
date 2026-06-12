@@ -1,0 +1,43 @@
+# AI use-case governance registry (Specs/14 §5). Unregistered use cases are
+# refused at the gateway — registration precedes production, always.
+use_cases:
+  policy-qa-copilot:
+    purpose: "Answer policy questions from governed corpus with citations"
+    module: "10"
+    risk_class: limited
+    human_role: self-serve
+    model_class: opus
+    budget_chars: 2000000
+
+  payroll-anomaly-explainer:
+    purpose: "Explain per-record anomaly scores to payroll reviewers"
+    module: "03"
+    risk_class: limited
+    human_role: reviewer-disposition-required
+    model_class: opus
+    budget_chars: 1000000
+
+  resume-rank-explain:
+    purpose: "Rank-and-explain candidate-requisition fit; never auto-reject"
+    module: "06"
+    risk_class: high-risk
+    human_role: recruiter-decides
+    model_class: opus
+    budget_chars: 1000000
+    ll144_audit: required
+
+  review-draft-assist:
+    purpose: "Draft self/manager review narratives from goals + check-in history; labeled, edit-required; no rating surface"
+    module: "07"
+    risk_class: limited
+    human_role: author-must-edit
+    model_class: opus
+    budget_chars: 2000000
+
+  classification-bulk:
+    purpose: "High-volume text classification (case routing, skill tagging)"
+    module: "shared"
+    risk_class: limited
+    human_role: none
+    model_class: haiku
+    budget_chars: 5000000

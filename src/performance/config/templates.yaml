@@ -1,0 +1,36 @@
+# Review templates (PERF-2). The ratings-philosophy gate is isolated HERE:
+# scales are per-template config and `ratingless: true` switches a template to
+# narrative + calibration-grid only. No code change either way.
+templates:
+  annual-standard:
+    sections: [goals, competencies, values, overall]
+    scale: {points: 4, anchors: [below, meets, exceeds, outstanding]}
+    ratingless: false
+    min_tenure_days: 90
+    participant_weights: {manager: 70, matrix_manager: 30}
+    leave_extension_days:
+      parental: 60
+      medical: 30
+      military: 90
+
+  annual-ratingless:
+    sections: [goals, competencies, narrative]
+    ratingless: true
+    min_tenure_days: 90
+    participant_weights: {manager: 100}
+    leave_extension_days:
+      parental: 60
+      medical: 30
+
+  pip:
+    sections: [milestones, outcome]
+    scale: {points: 2, anchors: [not-met, met]}
+    ratingless: false
+    min_tenure_days: 0
+    restricted: true   # T3 tier, read-audited
+    participant_weights: {manager: 100}
+    leave_extension_days:
+      medical: 30
+
+  # Deliberately invalid weights kept OUT of here — see tests: a template whose
+  # participant weights don't sum to 100 fails validation at load.

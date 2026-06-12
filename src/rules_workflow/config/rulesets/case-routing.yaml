@@ -1,0 +1,20 @@
+# Case smart routing (Specs/10 §5): topic -> "queue|priority|sla-hours".
+# Decision table, versioned; ER topics route to the segregated queue.
+ruleset: case-routing
+versions:
+  - version: 1
+    effective_date: 2026-06-01
+    inputs: [topic]
+    output: routing
+    default: "general|low|48"
+    rules:
+      - when: {topic: payslip}
+        then: "payroll|high|8"
+      - when: {topic: bank-change}
+        then: "payroll|high|4"
+      - when: {topic: enrollment}
+        then: "benefits|medium|24"
+      - when: {topic: leave}
+        then: "benefits|medium|24"
+      - when: {topic: {in: [harassment, whistleblower, investigation]}}
+        then: "er|critical|4"

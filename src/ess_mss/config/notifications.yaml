@@ -1,0 +1,18 @@
+# Notification catalog (Specs/10 §6): per-type channel defaults + mandatory flags.
+# Mandatory types ignore user preferences (legal notices, fraud alerts).
+notification_types:
+  payslip-published:
+    default_channels: [push, email]
+  approval-pending:
+    default_channels: [push]
+  bank-change-alert:
+    # Fraud interlock: fires on EVERY registered channel, ignores overrides.
+    default_channels: [push, email, sms]
+    mandatory: true
+  legal-notice:
+    default_channels: [email, postal]
+    mandatory: true
+  enrollment-window-open:
+    default_channels: [push, email]
+  frontline-shift-notice:
+    default_channels: [sms, personal-email]

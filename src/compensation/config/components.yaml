@@ -1,0 +1,29 @@
+# Pay-components catalog (COMP-1 §2). Taxability/pensionability live here as
+# per-country component metadata — country packs, never code branches.
+components:
+  base-salary:
+    kind: base
+    recurrence: per-period
+    annualization_factor: 1
+  car-allowance:
+    kind: allowance
+    recurrence: monthly
+    metadata:
+      US: {taxable: true, pensionable: false}
+      DE: {taxable: true, pensionable: true}
+      UK: {taxable: true, pensionable: false}
+  shift-allowance:
+    kind: allowance
+    recurrence: per-period
+    metadata:
+      US: {taxable: true, pensionable: false}
+      DE: {taxable: true, pensionable: true}
+  sign-on-bonus:
+    kind: one-time
+    clawback_months: 12
+  spot-award:
+    kind: one-time
+    budget_pooled: true
+  final-pay-supplement:
+    kind: one-time
+    off_cycle: true

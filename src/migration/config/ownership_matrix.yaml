@@ -1,0 +1,19 @@
+# Field-ownership matrix per parallel-run phase (MIG-4 §5).
+phases:
+  shadow:            # Phase A: PS authoritative for everything, one-way CDC
+    bidirectional: false
+    default_owner: ps
+    fields: {}
+  pilot-dual-entry:  # Phase B: pilot transacts in Meridian for HR fields
+    bidirectional: true
+    default_owner: ps
+    fields:
+      address: meridian
+      emergency_contact: meridian
+      job_code: meridian
+      base_salary: ps        # comp authority flips only at cutover
+      bank_details: ps       # payroll-path: PS wins until authority transfer
+  cutover:           # Phase C post-flip: Meridian authoritative
+    bidirectional: false
+    default_owner: meridian
+    fields: {}

@@ -1,0 +1,8 @@
+# Pay-transparency posting obligations per jurisdiction (REC-1 / EU directive).
+jurisdictions:
+  US-CO: {salary_disclosure: true}
+  US-CA: {salary_disclosure: true}
+  US-NY: {salary_disclosure: true}
+  US-WA: {salary_disclosure: true}
+  EU: {salary_disclosure: true}
+  US-TX: {salary_disclosure: false}

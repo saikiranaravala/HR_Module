@@ -1,0 +1,32 @@
+# Versioned prompt registry (Specs/14 §2). Prompts are config, not code:
+# reviewed, versioned, promoted like any other artifact.
+prompts:
+  policy-answer:
+    version: "1.0.0"
+    template: |
+      You are the Meridian HR copilot. Answer ONLY from the provided sources;
+      cite document id and version for every claim. If sources conflict,
+      present both with the precedence note. Worker context: {country}/{population}.
+      Sources: {sources}
+      Question: {user_text}
+
+  anomaly-explain:
+    version: "1.0.0"
+    template: |
+      Explain why this payroll record was flagged, in reviewer-friendly terms.
+      Flags: {flags}
+      Record summary: {user_text}
+
+  review-draft:
+    version: "1.0.0"
+    template: |
+      Draft a performance review narrative from the evidence below. Describe
+      observed behaviors and outcomes only. Do NOT suggest, imply, or assign
+      any rating, score, or ranking.
+      Evidence: {user_text}
+
+  classify:
+    version: "1.0.0"
+    template: |
+      Classify the following text into one of: {labels}.
+      Text: {user_text}

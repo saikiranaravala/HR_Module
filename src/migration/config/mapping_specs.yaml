@@ -1,0 +1,17 @@
+# Field-level mapping specs (MIG-2 §3): versioned, owned, change-controlled.
+# spec_version: 2026.06.1 — mapping change control board reviews edits weekly.
+domains:
+  job-history:
+    owner: core-hr-steward
+    required_fields: [worker_ref, effective_date, action_code, job_code]
+    valid_values:
+      action_code: [hire, rehire, termination, transfer, promotion,
+                    comp-change, leave-start, leave-return, data-change]
+    referential_field: worker_ref
+    critical_fields: [worker_ref, effective_date, action_code, job_code]
+  person:
+    owner: core-hr-steward
+    required_fields: [worker_ref, country]
+    valid_values: {}
+    referential_field: null
+    critical_fields: [worker_ref, country]

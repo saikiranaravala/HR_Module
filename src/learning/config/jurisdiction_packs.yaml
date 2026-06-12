@@ -1,0 +1,41 @@
+# Jurisdiction compliance packs (LEARN-2). Versioned config with
+# regulatory-change notes — a new regulation is a config deploy (<5 days).
+# pack_version: 2026.1
+# changes: initial pack set (CA SB1343, NY annual, OSHA LOTO)
+requirements:
+  us-ca-harassment-supervisor:
+    regulation: "CA SB1343"
+    content_key: harassment-prevention-ca-supervisor   # 2-hour course
+    population: {locations: [US-CA], supervisor: true}
+    applies_to: [employee]
+    initial_deadline_days: 180   # within 6 months of becoming supervisor
+    recurrence: {type: rolling-anniversary, months: 24}   # biennial
+    grace_days: 30
+
+  us-ca-harassment-nonsupervisor:
+    regulation: "CA SB1343"
+    content_key: harassment-prevention-ca-1hr
+    population: {locations: [US-CA], supervisor: false}
+    applies_to: [employee, contingent]   # CA covers contingent workers
+    initial_deadline_days: 180
+    recurrence: {type: rolling-anniversary, months: 24}
+    grace_days: 30
+
+  us-ny-harassment:
+    regulation: "NY Labor Law 201-g"
+    content_key: harassment-prevention-ny
+    population: {locations: [US-NY]}
+    applies_to: [employee, contingent]
+    initial_deadline_days: 90
+    recurrence: {type: fixed-date, date: "12-31"}   # annual by calendar year
+    grace_days: 0
+
+  osha-lockout-tagout:
+    regulation: "OSHA 1910.147"
+    content_key: loto-authorized
+    population: {role_flags: [energy-control]}
+    applies_to: [employee, contingent]
+    initial_deadline_days: 30
+    recurrence: {type: rolling-anniversary, months: 12}
+    grace_days: 0
+    consequence: assignment-block   # policy-gated: safety-critical

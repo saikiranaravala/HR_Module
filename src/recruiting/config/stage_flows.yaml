@@ -1,0 +1,5 @@
+# Stage flows per requisition template (REC-3): configuration, not code.
+templates:
+  standard: [new, screen, interview, offer]
+  executive: [new, screen, interview, panel, references, offer]
+  high-volume: [new, knockout, interview, offer]

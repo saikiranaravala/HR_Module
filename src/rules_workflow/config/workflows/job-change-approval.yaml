@@ -1,0 +1,23 @@
+# Job-change approval flow. Versions demonstrate finish-on-old migration.
+workflow: job-change-approval
+versions:
+  - version: 1
+    steps:
+      - id: manager-approval
+        type: approval
+        approver: "levels-up:1"
+        on_exhausted: "fallback-role:hr-admin"
+      - id: notify-worker
+        type: notification
+
+  - version: 2
+    steps:
+      - id: manager-approval
+        type: approval
+        approver: "levels-up:1"
+        on_exhausted: "fallback-role:hr-admin"
+      - id: hr-approval
+        type: approval
+        approver: "role:hr-admin"
+      - id: notify-worker
+        type: notification

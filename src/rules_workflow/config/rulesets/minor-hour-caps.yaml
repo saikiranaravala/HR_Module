@@ -1,0 +1,13 @@
+# Daily hour caps for minor workers (Specs/02 §8 register; Specs/01 feeds is_minor).
+ruleset: minor-hour-caps
+versions:
+  - version: 1
+    effective_date: 2026-01-01
+    inputs: [country]
+    output: daily_cap
+    default: 8
+    rules:
+      - when: {country: US}
+        then: 8
+      - when: {country: DE}
+        then: 8

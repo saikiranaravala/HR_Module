@@ -1,0 +1,58 @@
+# Governed metric registry (Specs/11 §3) — the semantic layer. One definition
+# per metric, enterprise-wide; each entry: definition, formula, grain, owner,
+# contractor toggle, change log. Code evaluates ONLY formulas named here.
+metrics:
+  headcount:
+    definition: "Active workers at the as-of date (point-in-time on SCD2 validity)."
+    formula: headcount-point-in-time
+    grain: org
+    owner: people-analytics
+    include_contingent: false
+    change_log:
+      - "2026-06-11 v1 initial certification"
+
+  headcount-total-workforce:
+    definition: "Active workers INCLUDING contingent — the contractor-inclusive variant."
+    formula: headcount-point-in-time
+    grain: org
+    owner: people-analytics
+    include_contingent: true
+    change_log:
+      - "2026-06-11 v1 initial certification"
+
+  headcount-fte:
+    definition: "FTE-weighted active headcount."
+    formula: headcount-fte-weighted
+    grain: org
+    owner: people-analytics
+    include_contingent: false
+    change_log:
+      - "2026-06-11 v1 initial certification"
+
+  turnover:
+    definition: "Annualized exits over average active population."
+    formula: turnover-annualized
+    grain: org
+    owner: people-analytics
+    include_contingent: false
+    window_months: 12
+    change_log:
+      - "2026-06-11 v1 initial certification"
+
+  turnover-regrettable-share:
+    definition: "Share of exits tagged regrettable."
+    formula: turnover-regrettable
+    grain: org
+    owner: people-analytics
+    include_contingent: false
+    change_log:
+      - "2026-06-11 v1 initial certification"
+
+  span-of-control:
+    definition: "Average direct reports per distinct org node."
+    formula: span-of-control
+    grain: org
+    owner: people-analytics
+    include_contingent: true
+    change_log:
+      - "2026-06-11 v1 initial certification"

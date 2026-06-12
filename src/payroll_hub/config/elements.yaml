@@ -1,0 +1,12 @@
+# Canonical element dictionary excerpt (Specs/03 §2). Governed catalog with
+# per-country activation. Provider mappings live in adapters, never here.
+elements:
+  REG:        {kind: earning,   description: "Regular hours",        countries: ["*"]}
+  OT15:       {kind: earning,   description: "Overtime 1.5x",        countries: ["*"]}
+  OT20:       {kind: earning,   description: "Overtime 2.0x",        countries: ["US"]}
+  BONUS:      {kind: earning,   description: "One-time bonus",       countries: ["*"]}
+  RETRO_REG:  {kind: earning,   description: "Retro regular delta",  countries: ["*"]}
+  401K:       {kind: deduction, description: "401(k) employee",      countries: ["US"]}
+  GARN:       {kind: deduction, description: "Garnishment",          countries: ["US", "CA"]}
+  HEALTH:     {kind: deduction, description: "Health premium",       countries: ["*"]}
+  PENSION_DE: {kind: deduction, description: "DE pension employee",  countries: ["DE"]}

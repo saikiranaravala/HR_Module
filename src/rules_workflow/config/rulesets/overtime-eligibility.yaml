@@ -1,0 +1,27 @@
+# Demonstration ruleset consumed by golden-dataset tests. Time & Labor
+# (Module Specs/02) will own the real overtime rules.
+ruleset: overtime-eligibility
+versions:
+  - version: 1
+    effective_date: 2026-01-01
+    inputs: [country, weekly_hours]
+    output: decision
+    default: not-eligible
+    rules:
+      - when: {country: US, weekly_hours: {gt: 40}}
+        then: overtime-1.5x
+      - when: {country: FR, weekly_hours: {gt: 35}}
+        then: overtime-fr-statutory
+
+  - version: 2
+    effective_date: 2026-07-01
+    inputs: [country, weekly_hours]
+    output: decision
+    default: not-eligible
+    rules:
+      - when: {country: US, weekly_hours: {gt: 40}}
+        then: overtime-1.5x
+      - when: {country: FR, weekly_hours: {gt: 35}}
+        then: overtime-fr-statutory
+      - when: {country: DE, weekly_hours: {gt: 48}}
+        then: overtime-de-wtd-breach

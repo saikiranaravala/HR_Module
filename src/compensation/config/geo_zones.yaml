@@ -1,0 +1,5 @@
+# Geographic differentials (COMP-1): zone → % of national range.
+zones:
+  us-metro-tier1: 100
+  us-metro-tier2: 95
+  us-national: 90

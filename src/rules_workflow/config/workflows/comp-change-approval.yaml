@@ -1,0 +1,11 @@
+# Comp-change approval: individually reviewed, never bulk-approved (MSS guardrail).
+workflow: comp-change-approval
+versions:
+  - version: 1
+    steps:
+      - id: manager-approval
+        type: approval
+        approver: "levels-up:1"
+        on_exhausted: "fallback-role:hr-admin"
+      - id: notify-worker
+        type: notification

@@ -1,0 +1,13 @@
+# Benefits eligibility (Specs/04 §3): worker type, FTE threshold, country.
+ruleset: benefits-eligibility
+versions:
+  - version: 1
+    effective_date: 2026-01-01
+    inputs: [worker_type, fte, country]
+    output: decision
+    default: not-eligible
+    rules:
+      - when: {worker_type: employee, fte: {gte: 0.5}, country: {in: [US, CA]}}
+        then: eligible
+      - when: {worker_type: employee, fte: {gte: 0.5}, country: {in: [DE, FR, UK]}}
+        then: eligible-statutory-first

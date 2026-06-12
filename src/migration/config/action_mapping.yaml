@@ -1,0 +1,12 @@
+# PS action/reason taxonomy mapping (MIG-1 §3). Each mapping passed semantic
+# review; unmapped actions HALT the pipeline (no silent defaults).
+actions:
+  HIR: {action: hire, reason: new-hire}
+  REH: {action: rehire, reason: rehire}
+  TER: {action: termination, reason: voluntary, status: terminated}
+  XFR: {action: transfer, reason: org-transfer}
+  PRO: {action: promotion, reason: promotion}
+  PAY: {action: comp-change, reason: merit}
+  LOA: {action: leave-start, reason: leave, status: leave}
+  RFL: {action: leave-return, reason: return-from-leave}
+  DTA: {action: data-change, reason: correction}

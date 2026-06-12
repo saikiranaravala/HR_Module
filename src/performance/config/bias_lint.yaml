@@ -1,0 +1,10 @@
+# Deterministic bias-language lint (PERF-4 / spec §5): flags, never blocks.
+terms:
+  - {term: "abrasive", category: gender-coded}
+  - {term: "bossy", category: gender-coded}
+  - {term: "emotional", category: gender-coded}
+  - {term: "energetic young", category: age-coded}
+  - {term: "digital native", category: age-coded}
+  - {term: "set in their ways", category: age-coded}
+  - {term: "personality", category: personality-vs-behavior}
+  - {term: "attitude problem", category: personality-vs-behavior}
