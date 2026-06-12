@@ -1,0 +1,4 @@
+# Dev/test extras (mirrors pyproject.toml [project.optional-dependencies].dev).
+# Install: pip install -r requirements.txt -r requirements-dev.txt
+pytest==9.0.3
+pytest-cov==7.1.0
