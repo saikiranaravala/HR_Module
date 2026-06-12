@@ -74,3 +74,9 @@ Format for entries:
 **Why:** Real but non-blocking at local scale; recording so they aren't rediscovered.
 **Affects:** compensation, analytics, ess_mss, all model/migration pairs.
 
+## 2026-06-11 — UI conventions (v1 shell)
+**Type:** convention
+**What:** `UI/` is React 19 + TS + Vite, react-router-dom only; the design system is owned CSS (`UI/src/styles.css` tokens: navy #15324E, teal #0E8074, amber #F2A33C) reproducing PeopleSoft grammar (tiles, breadcrumb bar, psgrid). `UI/src/data.ts` is the demo data layer whose shapes mirror the Python models 1:1 — the REST client replaces it without page changes; store actions in `UI/src/store.tsx` are dispatch-shaped for that swap. Personas (employee/manager/hr) drive nav + homepage tiles.
+**Why:** User directive: best-in-class UI, PS look-and-feel with own branding, minimum clicks. No component library keeps the brand owned and the bundle small (93KB gz).
+**Affects:** UI/, future REST/i18n work, TechDesignDoc/17.
+

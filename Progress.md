@@ -46,6 +46,12 @@ Tracked in detail in [Specs/00-INDEX.md](Specs/00-INDEX.md):
 
 Reverse-chronological. Entry format defined in `.claude/skills/update-progress/SKILL.md`.
 
+### 2026-06-11 — UI shell v1: PeopleSoft-familiar, Meridian-branded web app — 16 screens live
+- **Status:** UI phase started and v1 complete (cross-module; design doc [TechDesignDoc/17](TechDesignDoc/17-ui-shell-design.md)).
+- **Done:** `UI/` scaffolded (React 19 + TS + Vite per pinned toolchain, react-router only — owned design system, no component lib). PS-familiar grammar under Meridian brand: dark header band + homepage selector (3 personas), Fluid-style KPI tiles, breadcrumb bar, classic `psgrid` grids with Personalize/Find/View All furniture, amber CTAs. **Minimum clicks:** Ctrl+K command palette (pages + quick actions), "needs your attention" deep links, one-click + bulk approve (comp guardrail surfaced), 2-click PTO with balance projection, inline merit entry with live budget bar, as-of date picker on temporal job history. 16 screens covering every Done module; governance behaviors visible in-UI (AI never rejects/never rates, T3 read-logging notices, complementary suppression, payroll anomaly gate). A11y: skip-nav, ARIA on shell/dialogs, keyboard paths. **`npm run build` green (tsc + vite, 43 modules); dev server smoke-tested (200 on root + SPA routes).**
+- **Next:** REST client to replace `data.ts` (FastAPI routers per module), i18n string catalog, WCAG CI gate.
+- **Blockers:** none.
+
 ### 2026-06-11 — Program: full review + full test pass — all 16 modules Done, suite green
 - **Status:** all modules Done (see table). **pytest: 237 passed, 0 failed** after review fixes; migration chain `0001`–`0016` verified (every revision up/down/up).
 - **Review (7-angle finder + verification) — fixed:** (1) workflow inbox missed steps fallback-routed to `role:X` — `pending_for_assignee`/`inbox` now accept `roles=` (new test `test_inbox_includes_role_queue_items`); (2) org-path prefix checks lacked '/' boundaries ('/corp/eng' matched '/corp/engineering') — new `platform_core.orgpath` applied to ess_mss team scoping, analytics orgmap/semantic filter, succession reorg re-homing (+ boundary test); (3) months*30 drift in statutory windows — new `platform_core.dates.add_months` applied to learning rolling anniversaries, alumni retention, candidate retention; (4) dead `ChecklistError` removed.
