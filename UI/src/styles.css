@@ -68,6 +68,10 @@ a:hover { text-decoration: underline; }
   margin-left: 14px; background: rgba(255,255,255,.10); border: 1px solid rgba(255,255,255,.25);
   color: var(--on-dark); border-radius: var(--radius); padding: 5px 10px; font-size: 13px; cursor: pointer;
 }
+.gh-home-sel option {
+  background: var(--surface);
+  color: var(--ink);
+}
 .gh-spacer { flex: 1; }
 .gh-search {
   display: flex; align-items: center; gap: 8px; background: rgba(255,255,255,.12);
