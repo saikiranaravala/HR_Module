@@ -31,7 +31,7 @@ def session_minutes(session: Session, *, session_id: str) -> list[dict]:
     """Auto-minuted decision log: the full placement lineage of a session."""
     placements = session.scalars(select(NineBoxPlacement).where(
         NineBoxPlacement.session_id == session_id,
-    ).order_by(NineBoxPlacement.placed_at)).all()
+    ).order_by(NineBoxPlacement.seq)).all()
     return [{"worker_id": p.worker_id, "box": f"{p.performance}×{p.potential}",
              "rationale": p.rationale, "actor": p.actor,
              "at": p.placed_at.isoformat()} for p in placements]
@@ -40,4 +40,4 @@ def session_minutes(session: Session, *, session_id: str) -> list[dict]:
 def current_box(session: Session, *, worker_id: str) -> NineBoxPlacement | None:
     return session.scalars(select(NineBoxPlacement).where(
         NineBoxPlacement.worker_id == worker_id,
-    ).order_by(NineBoxPlacement.placed_at.desc())).first()
+    ).order_by(NineBoxPlacement.seq.desc())).first()

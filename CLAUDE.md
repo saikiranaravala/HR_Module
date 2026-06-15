@@ -18,7 +18,10 @@ Requirement IDs are *defined* in the master PRD (with P0/P1/P2 priority tags); d
 | `TechDesignDoc/` | Technical design docs, one per module (`NN-<module>-design.md`) — kept in sync with code via the `update-design-doc` skill |
 | `src/` | Backend code, one Python package per bounded context (e.g., `src/platform_core/`) |
 | `src/test/` | Tests, mirroring the package layout (`src/test/platform_core/`) |
-| `UI/` | React frontend (npm/Vite) — scaffolded when the first UI-bearing module starts |
+| `UI/` | React 19 + TypeScript + Vite frontend; 16 screens live (mock data — REST integration pending) |
+| `SQL/DDL/` | Standalone DDL for all 16 schemas (generated from live DB via `pg_dump`); bootstrap a scratch DB with `SQL/DDL/run_all.sql` + `alembic stamp head` |
+| `SQL/` | Demo seed dataset (9-person coherent cast, idempotent); load with `SQL/run_all.sql` |
+| `migrations/versions/` | Single Alembic chain `0001_…0016_…`, one revision per module |
 | `Progress.md` | Build tracker (root) |
 
 **Pinned local toolchain (use these; don't assume cloud infra):** Python 3.11.9 (backend: FastAPI, SQLAlchemy 2.x, Alembic, pytest), Node v24.14.0 + npm 11.11.0 (UI only), PostgreSQL local instance (database `meridian`).
@@ -30,7 +33,7 @@ Requirement IDs are *defined* in the master PRD (with P0/P1/P2 priority tags); d
 Virtualenv at `.venv/` (Windows). Database URLs live in `src/.env` (git-ignored): `MERIDIAN_DATABASE_URL` (dev DB `meridian`, Alembic-managed) and `MERIDIAN_TEST_DATABASE_URL` (test DB `meridian_test`, schemas recreated per run). Local credentials are in `.claude/memory.md`.
 
 ```powershell
-.\.venv\Scripts\python.exe -m pytest                                  # full suite
+.\.venv\Scripts\python.exe -m pytest                                  # full suite (237 tests)
 .\.venv\Scripts\python.exe -m pytest src/test/core_hr                 # one module
 .\.venv\Scripts\python.exe -m pytest src/test/core_hr/test_core_hr.py::test_CORE_rehire_bridges_original_hire_date  # one test
 .\.venv\Scripts\python.exe -m alembic upgrade head                    # migrate dev DB
@@ -38,11 +41,18 @@ Virtualenv at `.venv/` (Windows). Database URLs live in `src/.env` (git-ignored)
 .\.venv\Scripts\python.exe -m uvicorn platform_core.api:app --app-dir src  # run the API
 ```
 
+UI (run from `UI/`):
+```powershell
+npm run dev      # Vite dev server
+npm run build    # tsc + vite build (must stay green)
+npm run lint     # ESLint
+```
+
 Tests need the local PostgreSQL 17 service running. They do **not** use Alembic: each module's `src/test/<pkg>/conftest.py` drops/recreates its schemas in `meridian_test` from `Base.metadata`, reinstalls immutability guards, and truncates tables per test — so a new table needs both a model and a migration, and the two must agree.
 
 ## Codebase Architecture (as built)
 
-- **`src/platform_core/` is the shared kernel** every module builds on: `temporal.py` (EFFDT/EFFSEQ pattern + `install_immutability_guard`), `policy/` (the single policy decision point, tiers T0–T3), `audit.py` (hash-chained audit log — canonicalize timestamps to UTC before hashing), `catalog.py` (privacy catalog tags), `crypto.py` (envelope encryption), `conformance.py` (the reusable `TemporalConformanceSuite` — run it against every new effective-dated entity), `db.py` (engine/session factories + `.env` loading), `base.py` (shared declarative `Base`).
+- **`src/platform_core/` is the shared kernel** every module builds on: `temporal.py` (EFFDT/EFFSEQ pattern + `install_immutability_guard`), `policy/` (the single policy decision point, tiers T0–T3), `audit.py` (hash-chained audit log — canonicalize timestamps to UTC before hashing), `catalog.py` (privacy catalog tags), `crypto.py` (envelope encryption), `conformance.py` (the reusable `TemporalConformanceSuite` — run it against every new effective-dated entity), `db.py` (engine/session factories + `.env` loading), `base.py` (shared declarative `Base`), `orgpath.py` (`within(path, subtree)` — always use this for org-path comparisons; plain `startswith` is a bug because `/corp/eng` would match `/corp/engineering`), `dates.py` (`add_months(date, n)` — always use this for statutory/rolling windows; `months * 30` drifts ~10 days over a biennial anniversary).
 - **One local PostgreSQL database, one schema per bounded context** (`platform`, `core`, `time_labor`, `payroll`, `benefits`, `workflow`, `integration`, `ai`) — the local stand-in for DB-per-service. Invariant #2 still applies: modules touch other contexts' data through their service functions, never by joining across schemas.
 - **All models register on the shared `Base`** (`platform_core.base`), with `__table_args__ = {"schema": ...}` placing them in their context's schema. **Single Alembic chain** in `migrations/versions/` (`0001_…` onward), roughly one migration per module; `migrations/env.py` reads the URL via `platform_core.db.database_url()`.
 - **Domain modules are thin packages** (e.g., `core_hr/models.py` + `services.py`; `rules_workflow/rules.py` + `workflow.py`) with versioned/effective-dated config under each package's `config/` directory — that's where country packs and decision tables go, per Invariant #5.

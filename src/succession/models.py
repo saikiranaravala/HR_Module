@@ -3,7 +3,7 @@ non-payroll domain: slates, 9-box, and key positions are T3 (read-audited)."""
 import uuid
 from datetime import date, datetime
 
-from sqlalchemy import Boolean, Date, DateTime, Integer, Text, Uuid
+from sqlalchemy import Boolean, Date, DateTime, Identity, Integer, Text, Uuid
 from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.orm import Mapped, mapped_column
 
@@ -67,6 +67,7 @@ class NineBoxPlacement(Base):
     __table_args__ = {"schema": "succession"}
 
     placement_id: Mapped[uuid.UUID] = mapped_column(Uuid, primary_key=True, default=uuid.uuid4, info=dict(RECORD_KEEPING_TAG))
+    seq: Mapped[int] = mapped_column(Integer, Identity(always=True), nullable=False, info=dict(RECORD_KEEPING_TAG))
     worker_id: Mapped[str] = mapped_column(Text, info=dict(_SUCC_TAG))
     session_id: Mapped[str] = mapped_column(Text, info=dict(_SUCC_TAG))
     performance: Mapped[str] = mapped_column(Text, info=dict(_SUCC_TAG))  # opaque PERF rating
