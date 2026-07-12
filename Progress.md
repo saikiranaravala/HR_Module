@@ -46,6 +46,24 @@ Tracked in detail in [Specs/00-INDEX.md](Specs/00-INDEX.md):
 
 Reverse-chronological. Entry format defined in `.claude/skills/update-progress/SKILL.md`.
 
+### 2026-06-15 — Skills: 4 updated for as-built reality, 3 new for post-build workflows
+- **Status:** program-level deliverable (no module status change).
+- **Done:** Updated `implement-module` (TechDesignDoc/ path fix; model↔migration agreement, up/down/up + DDL regen, events-deferred note, timestamp-ordering rule from the 0017 fix), `update-progress` (program-level entry format), `temporal-schema` (as-built anchors: TemporalMixin, immutability guard, conformance suite, model+migration duality), `api-contract` (local reality: FastAPI in-code contracts, no Contracts/ dir yet, events deferred). New skills: `capture-ui-screenshots` (Playwright regeneration of Training/screenshots incl. the persona-reset and toast gotchas), `update-training` (curriculum sync conventions + blast-radius method), `release-deploy` (schema-before-code cloud release ordering, pre-push checklist, free-tier notes).
+- **Next:** none — skills fire on their triggers.
+- **Blockers:** none.
+
+### 2026-06-15 — Training: scenario walkthroughs with live screenshots (docs 12–14 + 45 images)
+- **Status:** program-level deliverable (extends the training curriculum below).
+- **Done:** three screenshot-per-step scenario guides — employee (9 scenarios), manager (5, incl. the bulk-refusal guardrail beat), administrator (4) — with 45 PNGs captured from the running demo UI via Playwright (`Training/screenshots/_capture.mjs`, reproducible; persona switching preserved via client-side nav). Every caption verified against the actual rendered screens; governance behaviors (bulk-barred comp, T3 read receipts, anomaly-gated payroll approval, AI reject-guard, out-of-guideline justification, complementary suppression, restated snapshots) each captured in their triggered state.
+- **Next:** localize decks per wave from these guides; recapture after any UI change.
+- **Blockers:** none.
+
+### 2026-06-15 — Training curriculum: 12 persona-based docs delivered (`Training/`)
+- **Status:** program-level deliverable (no module status change).
+- **Done:** `Training/00-INDEX.md` (curriculum matrix, learning paths, demo-environment spec, certification model) + 11 persona curricula: employee ESS (01), manager MSS (02), super user/HR admin (03), functional consultant (04), technical consultant/developer (05), DevOps/installation (06), maintenance & operations (07), change management (08), help desk agent (09), security & compliance (10), data migration (11). All content grounded in as-built behavior: demo personas (Avery/Morgan/Sam), real config file paths, real commands, invariants, edge-case register names, and open program gates. Each doc ends with a sign-off competency checklist.
+- **Next:** deliver via the learning module as evidence-backed completions when waves schedule (gated: works-council inventory, payroll RFP).
+- **Blockers:** none.
+
 ### 2026-06-12 — SQL/DDL: complete standalone table DDL, verified column-identical
 - **Status:** `SQL/DDL/` delivered — 16 per-schema DDL files + `run_all.sql` + README + `_generate.py` (regenerator).
 - **Done:** Generated from the live Alembic-managed DB (rev 0016) via `pg_dump --schema-only --no-owner --no-privileges`, cleaned and ordered (platform first — it owns `forbid_mutation()`). **Verified by building a scratch database from the DDL alone:** column-level diff vs live = **535/535 columns identical**, 20/20 triggers present, immutability trigger fires (UPDATE denied), scratch dropped. README documents the Alembic relationship (`alembic stamp head` after a DDL build; regenerate after each new migration).

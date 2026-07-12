@@ -7,6 +7,15 @@ description: Generate effective-dated PostgreSQL DDL following Meridian's tempor
 
 Meridian's most important consistency layer is the shared temporal pattern (Architecture Invariant #1). Every history-bearing entity follows it exactly — never a "current state only" table for person/job/comp/org domains.
 
+## As-built anchors (use these, don't re-derive)
+
+The pattern below is implemented once in `src/platform_core/` — new entities plug in rather than copy:
+
+- `temporal.py` → `TemporalMixin` (EFFDT/EFFSEQ composite PK + action/reason + audit columns; set `__temporal_identity__` to the entity-id column), the temporal writer (resolves insert / same-day correction / retro), and `install_immutability_guard(conn, table)` — install it in **both** the Alembic migration and the module's test conftest.
+- `conformance.py` → `TemporalConformanceSuite`: inherit it in the module's test class to get as-of, sequence-conflict, retro, and immutability tests for free.
+- `catalog.py` → tag columns via `info=dict(tag(...))` in the model — catalog tags live in model metadata locally, not only in SQL comments.
+- A new table needs the ORM model **and** an Alembic migration that agree exactly (tests build from metadata; dev DB from migrations). Verify the migration up/down/up and regenerate `SQL/DDL/` afterwards.
+
 ## Required shape for an effective-dated table
 
 ```sql

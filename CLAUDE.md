@@ -19,10 +19,12 @@ Requirement IDs are *defined* in the master PRD (with P0/P1/P2 priority tags); d
 | `src/` | Backend code, one Python package per bounded context (e.g., `src/platform_core/`) |
 | `src/test/` | Tests, mirroring the package layout (`src/test/platform_core/`) |
 | `UI/` | React 19 + TypeScript + Vite frontend; 16 screens live (mock data — REST integration pending) |
-| `SQL/DDL/` | Standalone DDL for all 16 schemas (generated from live DB via `pg_dump`); bootstrap a scratch DB with `SQL/DDL/run_all.sql` + `alembic stamp head` |
+| `SQL/DDL/` | Standalone DDL for all 16 schemas (generated from live DB via `pg_dump`); bootstrap a scratch DB with `SQL/DDL/run_all.sql` + `alembic stamp head`. Regenerate with `SQL/DDL/_generate.py` after each new migration — currently reflects rev 0016 (0017's `ninebox_placement.seq` column is missing) |
 | `SQL/` | Demo seed dataset (9-person coherent cast, idempotent); load with `SQL/run_all.sql` |
-| `migrations/versions/` | Single Alembic chain `0001_…0016_…`, one revision per module |
+| `migrations/versions/` | Single Alembic chain `0001_…0017_…`, roughly one revision per module (0017 is a fix revision) |
 | `Progress.md` | Build tracker (root) |
+| `Deploy-local.md` / `Deploy-Render.md` | Step-by-step deployment guides: local Windows stack, and Render (API + UI) + Supabase (DB) free tier |
+| `Training/` | Persona-based training curricula (00-INDEX + 11 persona docs: end users, super users, consultants, DevOps, ops, change mgmt, help desk, security, migration) |
 
 **Pinned local toolchain (use these; don't assume cloud infra):** Python 3.11.9 (backend: FastAPI, SQLAlchemy 2.x, Alembic, pytest), Node v24.14.0 + npm 11.11.0 (UI only), PostgreSQL local instance (database `meridian`).
 

@@ -26,5 +26,7 @@ description: Record completed work in Progress.md — update the module status t
    - **Blockers:** open gates or issues (omit if none).
    ```
 
+   **Program-level deliverables** (not tied to one module — e.g., SQL seed dataset, UI shell, deployment guides, training curriculum, program-wide reviews) use the same format with `Status: program-level deliverable (no module status change)` and skip the Requirement IDs line unless specific IDs apply. The module table is untouched.
+
 4. **If something non-obvious was learned** (PRD ambiguity, reversed decision, constraint discovered), also append it to `.claude/memory.md` — Progress.md says *what happened*, memory.md says *what we know now*.
 5. **Report failures plainly.** Failing tests, skipped scenarios, or partial slices go in the log as-is. A log entry that hides a failure is worse than no entry.

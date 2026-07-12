@@ -5,7 +5,8 @@
       "PowerShell(.\\\\.venv\\\\Scripts\\\\python -m pytest src/test -q 2>$null)",
       "PowerShell(.\\\\.venv\\\\Scripts\\\\python -m pytest src/test/rules_workflow -q 2>$null)",
       "PowerShell(.\\\\.venv\\\\Scripts\\\\python -m pytest src/test/integration_hub -q 2>$null)",
-      "PowerShell(.\\\\.venv\\\\Scripts\\\\python -m pytest src/test/core_hr -q 2>$null)"
+      "PowerShell(.\\\\.venv\\\\Scripts\\\\python -m pytest src/test/core_hr -q 2>$null)",
+      "Edit(/.claude/skills/implement-module/**)"
     ]
   }
 }

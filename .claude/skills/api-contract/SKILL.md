@@ -5,7 +5,7 @@ description: Author OpenAPI 3.1 REST contracts and CloudEvents schemas following
 
 # API & Event Contract Authoring
 
-Contracts are designed before handlers are written, and live under `Contracts/<context>/` (`openapi.yaml` per service, `events/*.json` per event type).
+Contracts are designed before handlers are written. Target state: standalone specs under `Contracts/<context>/` (`openapi.yaml` per service, `events/*.json` per event type). **Local reality:** no `Contracts/` directory exists yet — contracts are expressed directly as FastAPI routers + Pydantic models (see `src/platform_core/api.py` for the reference implementation of the conventions below: `/v1` prefix, RFC7807 `problem()` helper, `X-Correlation-Id` middleware), and events are deferred (see `.claude/memory.md`). Apply every convention below in-code until the contracts directory and event layer land.
 
 ## REST conventions (all mandatory)
 
